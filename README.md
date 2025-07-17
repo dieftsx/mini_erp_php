@@ -57,4 +57,3 @@ O endpoint `webhook.php` aceita JSON com os campos:
 
 ---
 
-Criado por: [Seu Nome]
