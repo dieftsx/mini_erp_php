@@ -1,15 +1,19 @@
 <?php
 // config/database.php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'mini_erp');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+$host = getenv('DB_HOST');
+$dbname = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASSWORD');
 
 function getDBConnection() {
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    global $host, $dbname, $user, $pass;
+    
+    $conn = new mysqli($host, $user, $pass, $dbname);
+    
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        error_log("Connection failed: " . $conn->connect_error);
+        die("Database connection error");
     }
+    
     return $conn;
 }
-?>
