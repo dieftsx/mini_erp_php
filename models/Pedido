@@ -1,0 +1,39 @@
+<?php
+// models/Pedido.php
+class Pedido extends BaseModel {
+    public $id;
+    public $data_pedido;
+    public $subtotal;
+    public $desconto;
+    public $frete;
+    public $total;
+    public $status = 'pendente';
+    public $cep;
+    public $endereco;
+    public $email_cliente;
+
+    public function criar() {
+        $stmt = $this->query(
+            "INSERT INTO pedidos (subtotal, desconto, frete, total, status, cep, endereco, email_cliente) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [$this->subtotal, $this->desconto, $this->frete, $this->total, $this->status, $this->cep, $this->endereco, $this->email_cliente]
+        );
+        return $stmt ? $stmt->insert_id : false;
+    }
+
+    public static function atualizarStatus($id, $status) {
+        $model = new self();
+        if ($status === 'cancelado') {
+            $model->cancelarPedido($id);
+        }
+        return $model->query(
+            "UPDATE pedidos SET status = ? WHERE id = ?",
+            [$status, $id]
+        );
+    }
+
+    private function cancelarPedido($id) {
+        // Lógica para devolver itens ao estoque
+    }
+}
+?>
